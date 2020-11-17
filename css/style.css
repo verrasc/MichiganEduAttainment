@@ -1,0 +1,126 @@
+/* stylesheet by C. Verras, 2020 */
+body {
+  background-color: azure;
+}
+.map {
+  border: medium solid #999;
+  margin: 10px 0 0 20px;
+  border-radius: 5px;
+}
+.chart {
+  float: right;
+  margin: 10px 0 0 20px;
+  border-radius: 10px;
+}
+.chartBackground {
+  fill: white;
+}
+.chartFrame {
+  fill: none;
+  stroke: #999;
+  stroke-width: 3px;
+  /* shape-rendering: crispEdges; */
+  border-radius: 10px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: "Josefin Sans";
+  font-size: 0.9em;
+  fill: #999;
+}
+.numbers {
+  fill: white;
+  font-family: sans-serif;
+  font-size: 8px;
+  font-weight: bold;
+}
+.chartTitle {
+  font-family: "Josefin Sans";
+  font-size: 1.3em;
+  font-weight: bold;
+}
+path {
+  stroke: azure;
+  fill: none;
+  stroke-width: 1.5;
+}
+.gratBackground {
+  fill: midnightblue;
+  opacity: .8;
+}
+.gratLines {
+  stroke: white;
+  stroke-width: .6;
+}
+.title {
+  font-family: "Holtwood One SC";
+  font-size: 20px;
+  background-color: azure;
+  color: midnightblue;
+  padding-top: 10px;
+  text-align: center;
+  justify-content: center;
+  text-decoration-color: midnightblue;
+  height: 40px;
+}
+.dataSources {
+  font-family: "Josefin Sans";
+  font-size: 9px;
+  background-color: azure;
+  color: midnightblue;
+  padding-top: 10px;
+  text-align: left;
+  justify-content: center;
+  text-decoration-color: midnightblue;
+  height: 40px;
+  padding-left: 20px;
+}
+.counties {
+  stroke: white;
+  stroke-width: .7px;
+  /* stroke-linecap: round; */
+  /* fill: white; */
+}
+
+.cLine {
+  stroke: midnightblue;
+  stroke-width: 1;
+}
+.dropdown {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  z-index:10;
+  font-family: "Josefin Sans";
+  font-size: 1em;
+  font-weight: bold;
+  padding: 2px;
+  border: .8px solid dimgrey;
+  box-shadow: 2px 2px 4px #999;
+  border-radius: 50;
+}
+option {
+  font-weight: normal;
+}
+.infolabel {
+  position: absolute;
+  height: 50px;
+  min-width: 100px;
+  color: #fff;
+  background-color: #000;
+  border: solid thin #fff;
+  padding: 5px 10px;
+  top: -75px;
+}
+.infolabel h1 {
+  margin: 0 20px 0 0;
+  padding: 0;
+  display: inline-block;
+  line-height: 1em;
+}
