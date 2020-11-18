@@ -3,7 +3,7 @@ body {
   background-color: azure;
 }
 .map {
-  border: medium solid #999;
+  border: solid midnightblue;
   margin: 10px 0 0 20px;
   border-radius: 5px;
 }
@@ -17,8 +17,8 @@ body {
 }
 .chartFrame {
   fill: none;
-  stroke: #999;
-  stroke-width: 3px;
+  stroke: midnightblue;
+  stroke-width: 2px;
   /* shape-rendering: crispEdges; */
   border-radius: 10px;
 }
@@ -32,7 +32,8 @@ body {
 .axis text {
   font-family: "Josefin Sans";
   font-size: 0.9em;
-  fill: #999;
+  fill: midnightblue;
+  font-weight: bold;
 }
 .numbers {
   fill: white;
@@ -44,6 +45,7 @@ body {
   font-family: "Josefin Sans";
   font-size: 1.3em;
   font-weight: bold;
+  fill: midnightblue;
 }
 path {
   stroke: azure;
@@ -87,7 +89,6 @@ path {
   /* stroke-linecap: round; */
   /* fill: white; */
 }
-
 .cLine {
   stroke: midnightblue;
   stroke-width: 1;
@@ -112,15 +113,29 @@ option {
   position: absolute;
   height: 50px;
   min-width: 100px;
-  color: #fff;
-  background-color: #000;
-  border: solid thin #fff;
+  color: midnightblue;
+  background-color: ghostwhite;
+  border: solid thin midnightblue;
+  border-radius: 10;
   padding: 5px 10px;
   top: -75px;
+  font-family: "Josefin Sans";
+  font-size: 18px;
 }
 .infolabel h1 {
-  margin: 0 20px 0 0;
+  margin: 0 5px 0 0;
   padding: 0;
   display: inline-block;
   line-height: 1em;
+  font-family: "Holtwood One SC";
+  font-size: 20px;
+  color: midnightblue;
+}
+.tooltip {
+  background: white;
+  font-family: "Josefin Sans"
+}
+.avgLine {
+  stroke: red;
+
 }

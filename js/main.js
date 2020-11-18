@@ -26,7 +26,7 @@ async function drawMap(){
 	//set up header div and title
 	var title = d3.select("body").append("div")
 								.attr("class", "title")
-								.html("Education Attainment in Michigan");
+								.html("Educational Attainment in Michigan");
 	//map frame dimensions
 	 var width = window.innerWidth * 0.4,
 	 	height = 460;
@@ -46,16 +46,20 @@ async function drawMap(){
 		//create path
 	var path = d3.geoPath().projection(projection);
 	//use Promise.all to parallelize asynchronous data loading
-	var promises = [];
-	promises.push(d3.csv("data/registeredVoters.csv")); //load attributes from csv
-	promises.push(d3.json("data/counties.topojson")); //load background spatial data
-
-	Promise.all(promises).then(callback);
+	//var promises = [];
+	// promises.push(d3.csv("data/registeredVoters.csv")); //load attributes from csv
+	// promises.push(d3.json("data/counties.topojson")); //load background spatial data
+  //
+	// Promise.all(promises).then(callback);
+  d3.queue()
+    .defer(d3.csv,"data/registeredVoters.csv")
+    .defer(d3.json,"data/counties.topojson")
+    .await(callback);
 	//callback function
-	function callback(data){
+	function callback(error, voters, counties){
 		//establish data sources from promises array
-		var voters = data[0];
-		var counties = data[1];
+		// var voters = data[0];
+		// var counties = data[1];
 		//call graticule generator
 		setGraticule(map,path);
 		//translate counties TopoJSON
@@ -167,19 +171,19 @@ function setEnumerationUnits(miCounties,map,path,colorScale){
 		.on("mouseout", function(d){
 			dehighlight(d.properties);
 		})
-		.on("mousemove", moveLabel)
-		// var desc = counties.append("desc")
-		// 	.text('{"stroke": "#000", "stroke-width": "0.5px"}');
-		.on("mouseover", function (d,i) {
-		d3.select(this).transition()
-				.duration('50')
-				.attr('opacity', '.85');
-		})
-		.on("mouseout", function(d,i) {
-		d3.select(this).transition()
-				.duration("50")
-				.attr('opacity', '1');
-	});
+		.on("mousemove", moveLabel);
+		var desc = counties.append("desc")
+			.text('{"stroke": "#000", "stroke-width": "0.5px"}');
+	// 	.on("mouseover", function (d,i) {
+	// 	d3.select(this).transition()
+	// 			.duration('50')
+	// 			.attr('opacity', '.85');
+	// 	})
+	// 	.on("mouseout", function(d,i) {
+	// 	d3.select(this).transition()
+	// 			.duration("50")
+	// 			.attr('opacity', '1');
+	// });
 };
 function setGraticule(map,path){
 	var graticule = d3.geoGraticule()
@@ -235,9 +239,6 @@ function setChart(csvData, colorScale){
 						.on("mouseover", highlight)
 						.on("mouseout", dehighlight)
 						.on("mousemove", moveLabel)
-
-		// var desc = bars.append("desc")
-		// 				.text('{"stroke": "none", "stroke-width": "0px"}');
 						.on("mouseover", function (d,i){
 							d3.select(this).transition()
 								.duration('50')
@@ -248,6 +249,8 @@ function setChart(csvData, colorScale){
 								.duration('50')
 								.attr('opacity', '1');
 						});
+            var desc = bars.append("desc")
+                    .text('{"stroke": "none", "stroke-width": "0px"}');
 						// .on("mouseenter", onMouseEnter(this))
 						// .on("mouseleave", onMouseLeave);
 
@@ -363,15 +366,15 @@ function onMouseLeave() {
 	tooltip.style("opacity", 0)
 }
 //not working
-function highlight(d,i){ //add interactivity
-	var selected = d3.selectAll("bar " + d.name).append("text")
-		.text(function() {
-			return [d];
-		})
+function highlight(props){ //add interactivity
+	// var selected = d3.selectAll("." + d.name).append("text")
+	// 	.text(function() {
+	// 		return [d];
+	// 	})
 
 	//change stroke
 	var selected = d3.selectAll("." + props.NAME)
-				.style("stroke","blue")
+				.style("stroke","#ad3e3e")
 				.style("stroke-width","2");
 	setLabel(props);
 };
@@ -398,25 +401,28 @@ function dehighlight(props){
 //not working
 function setLabel(props){
 	//label content
-	var labelAttribute = "<h1>" + props[expressed] + "</h1><b>" + expressed + "</b>";
+  var formatted = (props[expressed]).toFixed(1);
+  var titleFormatted = chartTitleArray[attrArray.indexOf(expressed)];
+  //console.log(props[expressed]);
+	var labelAttribute = "<h1>" + formatted + "%</h1><b>" + titleFormatted + "</b>";
 
 	//create label div
-	var inforlabel = d3.select("body")
+	var infolabel = d3.select("body")
 		.append("div")
 		.attr("class", "infolabel")
 		.attr("id", props.NAME + "_label")
 		.html(labelAttribute);
 	var countyName = infolabel.append("div")
 		.attr("class","labelname")
-		.html(props.NAME)
+		.html(props.NAME + " County")
 };
 //not working
 function moveLabel(){
 	//get width of label
 	var labelWidth = d3.select(".infolabel")
-		.node()
-		.getBoundingClientRect()
-		.width;
+		.node();
+		// .getBoundingClientRect()
+		// .width;
 	//use coords of mousemove event to set label coords
 	var x1 = d3.event.clientX + 10,
 			y1 = d3.event.clientY - 75,
@@ -437,6 +443,6 @@ function setDataSources(){
 	var dataSources = d3.select("body")
 			.append("div")
 			.attr("class","dataSources")
-			.text("Data sources: County Shapefiles: State of Michigan Open Data Portal, Educational Attainment: ACS 2018 5-Year Estimates, United States Census.")
+			.text("Data sources: County Shapefiles: State of Michigan Open Data Portal, Educational Attainment: ACS 2018 5-Year Estimates, United States Census. Created by Cassandra Verras, November 2020.")
 };
 })(); //run anonymous function
